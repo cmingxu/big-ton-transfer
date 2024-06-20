@@ -51,7 +51,7 @@ func (t *Transfer) DumpIfAmountGt(ton tlb.Coins) {
 }
 
 var (
-	minTon = flag.String("min-ton", "10", "min ton")
+	min = flag.String("min", "10", "min ton")
 )
 
 var lastHash = ""
@@ -77,6 +77,7 @@ func fetchLatestTransfer(url string) (string, error) {
 }
 
 func main() {
+	flag.Parse()
 	for {
 		var query url.Values = url.Values{
 			"limit": []string{"300"},
@@ -111,7 +112,7 @@ func main() {
 		})
 
 		for _, t := range tx {
-			t.DumpIfAmountGt(tlb.MustFromTON(*minTon))
+			t.DumpIfAmountGt(tlb.MustFromTON(*min))
 
 			if t.Hash == lastHash {
 				break
