@@ -18,12 +18,13 @@ import (
 const URI = "https://anton.tools/api/v0/messages?operation_id=0&src_workchain=0"
 
 type Transfer struct {
-	Hash      string    `json:"hash"`
-	From      string    `json:"from"`
-	To        string    `json:"to"`
-	Ton       tlb.Coins `json:"ton"`
-	Comment   string    `json:"comment"`
-	CreatedLt string    `json:"created_lt"`
+	Hash         string    `json:"hash"`
+	From         string    `json:"from"`
+	To           string    `json:"to"`
+	Ton          tlb.Coins `json:"ton"`
+	Comment      string    `json:"comment"`
+	CreatedLt    string    `json:"created_lt"`
+	ContractType string    `json:"dst_contract"`
 }
 
 func (t *Transfer) Dump() {
@@ -32,6 +33,7 @@ func (t *Transfer) Dump() {
 	fmt.Printf("To: %s\n", t.To)
 	fmt.Printf("Ton: %s\n", t.Ton.String())
 	fmt.Printf("CreatedLt: %s\n", t.CreatedLt)
+	fmt.Printf("ContractType: %s\n", t.ContractType)
 	fmt.Printf("Comment: %s\n", t.Comment)
 
 	fmt.Println("")
@@ -105,6 +107,7 @@ func main() {
 			t.Ton = tlb.MustFromNano(coin, 9)
 			t.CreatedLt = value.Get("created_lt").String()
 			t.Comment = value.Get("transfer_comment").String()
+			t.ContractType = value.Get("dst_contract").String()
 
 			tx = append(tx, t)
 
